@@ -1,6 +1,5 @@
-from app import app, db
+from app import db
 
-# Define User Model
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
@@ -8,7 +7,6 @@ class User(db.Model):
     password = db.Column(db.String(100), nullable=False)
     role = db.Column(db.String(10), default="user")  # "user" or "admin"
 
-# Define CashRequest Model
 class CashRequest(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -16,7 +14,7 @@ class CashRequest(db.Model):
     status = db.Column(db.String(20), default="pending")  # pending, approved, rejected
     timestamp = db.Column(db.DateTime, default=db.func.current_timestamp())
 
-# Ensure database tables are created inside the app context
-with app.app_context():
+# Run this in terminal to create the database
+if __name__ == "__main__":
     db.create_all()
-    print("✅ Database tables created successfully!")
+    print("Database tables created successfully!")
